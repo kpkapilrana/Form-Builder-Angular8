@@ -27,14 +27,20 @@ export class FormViewerComponent implements OnInit {
   createForm(fields) {
     const group = {};
     fields.forEach((field, i) => {
-        if (field.type === 'text' && field.validations && field.validations.length > 0) {
-          const validators = [];
-          field.validations.forEach(val => {
-              if ( val.characterLength === true) {
-                  validators.push(Validators.maxLength(val.textLength));
-              }
-          });
-          group[i] = new FormControl('', validators);
+        if (field.type === 'text') {
+          const valids = [];
+          if (field.allowChar > 0) {
+            valids.push(Validators.maxLength(field.allowChar));
+          }
+          if (field.required === true) {
+            valids.push(Validators.required);
+          }
+          // field.validations.forEach(val => {
+          //     if ( val.characterLength === true) {
+          //         validators.push(Validators.maxLength(val.textLength));
+          //     }
+          // });
+          group[i] = new FormControl('', [...valids]);
         } else {
           if (field.required === true) {
             group[i] = new FormControl('', Validators.required);
@@ -50,5 +56,7 @@ export class FormViewerComponent implements OnInit {
   getResponse(e: MatCheckboxChange) {
     this.showResponse = !this.showResponse;
   }
+
+  get f() { return this.formView.controls; }
 
 }

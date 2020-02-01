@@ -32,8 +32,9 @@
                         <mat-form-field class="full-width">
                             <input matInput placeholder="Enter Question" formControlName="label">
                           </mat-form-field>
+                          <input matInput placeholder="Allow Character" formControlName="allowChar">
                           <mat-checkbox formControlName="required">Required</mat-checkbox>
-                          <div class="row" formArrayName="validations">
+                          <!-- <div class="row" formArrayName="validations">
                             <div class="col-md-6" [formGroupName]="j" *ngFor="let opt of getValidations(form); let j = index">
                               <div class="row">
                               <mat-form-field class="col-md-8">
@@ -50,7 +51,7 @@
                             <div class="col-md-6">
                               <button mat-flat-button color="primary" (click)="addValidation(i,j)">Add</button>
                             </div>
-                          </div>
+                          </div> -->
                     </div>
         
                     <div *ngIf="getType(i) === 'radio'">

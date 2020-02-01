@@ -57,6 +57,7 @@ export class AppComponent implements OnInit {
         type: new FormControl('label'),
         label: new FormControl(),
         required: new FormControl(),
+        allowChar: new FormControl(),
         values: new FormArray([
           this. initValues()
         ]),
