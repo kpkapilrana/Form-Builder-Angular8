@@ -1,0 +1,10 @@
+.radioButton { 
+    display: flex;
+    flex-direction: column;
+      label{
+        padding-bottom: 8px;
+      }
+      .mat-radio-button {
+        padding-right: 15px;
+      }
+    }

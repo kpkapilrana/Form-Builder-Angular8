@@ -1,0 +1,127 @@
+<mat-toolbar color="primary">Form Builder</mat-toolbar>
+<!-- <router-outlet></router-outlet> -->
+
+<mat-tab-group>
+  <mat-tab label="Form Generator">
+    <div class="container">
+      <form [formGroup]="formGroup">
+      <div formArrayName="questions">
+        <mat-card class="row" [formGroupName]="i" *ngFor="let form of getQuestions(formGroup); let i = index">
+          <div class="row" >
+            <div class="col-md-2">
+                <mat-form-field>
+                    <mat-label>Type</mat-label>
+                    <mat-select formControlName="type">
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let t of types" [value]="t.id">
+                            {{t.value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-8">
+                <ng-container>
+                    <div *ngIf="getType(i) === 'label'">
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Enter label" formControlName="label">
+                          </mat-form-field>
+                          <mat-checkbox formControlName="required">Required</mat-checkbox>
+                    </div>
+        
+                    <div *ngIf="getType(i) === 'text'">
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Enter Question" formControlName="label">
+                          </mat-form-field>
+                          <mat-checkbox formControlName="required">Required</mat-checkbox>
+                          <div class="row" formArrayName="validations">
+                            <div class="col-md-6" [formGroupName]="j" *ngFor="let opt of getValidations(form); let j = index">
+                              <div class="row">
+                              <mat-form-field class="col-md-8">
+                                <mat-label>Allow Characters</mat-label>
+                                <input matInput placeholder="Enter Validation" formControlName="option">
+                              </mat-form-field>
+                              <div class="col-md-2">
+                                <button mat-mini-fab color="warn" (click)="removeValidation(i,j)">
+                                  <mat-icon>delete</mat-icon>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                            <div class="col-md-6">
+                              <button mat-flat-button color="primary" (click)="addValidation(i,j)">Add</button>
+                            </div>
+                          </div>
+                    </div>
+        
+                    <div *ngIf="getType(i) === 'radio'">
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Enter Question" formControlName="label">
+                          </mat-form-field>
+                          <mat-checkbox formControlName="required">Required</mat-checkbox>
+                          <div class="row" formArrayName="values">
+                            <div class="col-md-6" [formGroupName]="j" *ngFor="let opt of getOptions(form); let j = index">
+                              <mat-form-field>
+                                <input matInput placeholder="Enter Option" formControlName="option">
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                              <button mat-flat-button color="primary" (click)="addValues(i)">Add</button>
+                            </div>
+                          </div>
+                    </div>
+        
+                    <div *ngIf="getType(i) === 'dropdown'">
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Enter Question" formControlName="label">
+                          </mat-form-field>
+                          <mat-checkbox formControlName="required">Required</mat-checkbox>
+                          <div class="row" formArrayName="values">
+                            <div class="col-md-6" [formGroupName]="j" *ngFor="let opt of getOptions(form); let j = index">
+                              <div class="row">
+                              <mat-form-field class="col-md-8">
+                                <input matInput placeholder="Enter Option" formControlName="option">
+                              </mat-form-field>
+                              <div class="col-md-2">
+                                <button mat-mini-fab color="warn" (click)="removeValue(i,j)">
+                                  <mat-icon>delete</mat-icon>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                            <div class="col-md-6">
+                              <button mat-flat-button color="primary" (click)="addValues(i)">Add</button>
+                            </div>
+                          </div>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="col-md-2">
+              <button mat-mini-fab color="warn" (click)="removeQuestion(i)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div class="padding-5">
+      <button mat-flat-button color="primary" (click)="addQuestion()">Add Component</button>
+    </div>
+      <div class="button-container">
+          <button  mat-flat-button
+            color="primary" [disabled]="disableButton()" (click)="submit()">
+            Submit
+          </button>
+      </div>
+    
+    
+    
+      {{ formGroup.value | json }}
+    </form>
+    </div>
+     </mat-tab>
+  <mat-tab label="Form Viewer">
+    <ng-template matTabContent>
+      <app-form-viewer [data]="formGroup.value"></app-form-viewer>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
